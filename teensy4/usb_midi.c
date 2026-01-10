@@ -43,7 +43,7 @@ uint8_t usb_midi_msg_channel;
 uint8_t usb_midi_msg_type;
 uint8_t usb_midi_msg_data1;
 uint8_t usb_midi_msg_data2;
-uint8_t usb_midi_handle_null_vel_as_noteoff = 1;
+uint8_t usb_midi_convert_null_vel_to_noteoff = 1;
 uint8_t usb_midi_converted_note_off_vel = 0;
 // TODO: separate sysex buffers for each cable...
 uint8_t usb_midi_msg_sysex[USB_MIDI_SYSEX_MAX];
@@ -349,7 +349,7 @@ int usb_midi_read(uint32_t channel)
 				(*usb_midi_handleNoteOff)(ch, data1, data2);
 		} else
 		if (type1 == 0x09 && type2 == 0x09) {
-		    if ((data2 == 0) && usb_midi_handle_null_vel_as_noteoff) {
+		    if ((data2 == 0) && usb_midi_convert_null_vel_to_noteoff) {
 				usb_midi_msg_type = 0x80;	// 0x80 = usbMIDI.NoteOff
 				data2 = usb_midi_converted_note_off_vel;
 				if (usb_midi_handleNoteOff)

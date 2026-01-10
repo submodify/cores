@@ -57,7 +57,7 @@ extern uint8_t usb_midi_msg_channel;
 extern uint8_t usb_midi_msg_type;
 extern uint8_t usb_midi_msg_data1;
 extern uint8_t usb_midi_msg_data2;
-extern uint8_t usb_midi_handle_null_vel_as_noteoff;
+extern uint8_t usb_midi_convert_null_vel_to_noteoff;
 extern uint8_t usb_midi_converted_note_off_vel;
 extern uint8_t usb_midi_msg_sysex[USB_MIDI_SYSEX_MAX];
 extern uint16_t usb_midi_msg_sysex_len;
@@ -401,12 +401,12 @@ class usb_midi_class
                 usb_midi_handleRealTimeSystem = fptr;
         };
 
-	/* Handle Note On Velocity 0 events as Note off (default behaviour).
+	/* Convert Note On Velocity 0 events as Note off (default behaviour).
 	convert - Sets whether Note On Velocity 0 is converted to a Note Off (default = true).
 	off_velocity - Optionally sets the Release Velocity (0-127) of the converted Note Off (default = 0). 
 	*/	
-	void handleNullVelocityNoteOnAsNoteOff(bool convert, uint8_t off_velocity = 0){
-		usb_midi_handle_null_vel_as_noteoff = convert;
+	void convertNullVelocityNoteOnToNoteOff(bool convert, uint8_t off_velocity = 0){
+		usb_midi_convert_null_vel_to_noteoff = convert;
 		if (convert) usb_midi_converted_note_off_vel = off_velocity & 0x7F;
 	}
 };
